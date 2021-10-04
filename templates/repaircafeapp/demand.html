@@ -1,0 +1,179 @@
+{% extends "repaircafeapp/base.html" %}
+{% block content %}
+<style>
+.field {
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto 10px auto;
+}
+label {
+    flex: 1;
+}
+input, textarea, select {
+    flex: 10;
+}
+textarea {
+    min-height: 100px;
+}
+
+@media screen and (min-device-width: 500px) {
+    .field {
+        flex-direction: row;
+    }
+    label {
+        min-width: 120px;
+        text-align: right;
+        display: inline-block;
+        margin-right: 10px;
+    }
+}
+
+span.validity {
+    margin: 1px 0 0 4px;
+}
+input:invalid ~ span.validity:after,
+textarea:invalid ~ span.validity:after {
+    content: '✖';
+    color: red;
+}
+
+input:valid ~ span.validity:after,
+textarea:valid ~ span.validity:after {
+    content: '✓';
+    color: green;
+}
+
+</style>
+<h1>Demande de réparation</h1>
+<form action="{% url 'repaircafeapp:submit' %}" method="post">
+{% csrf_token %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<fieldset>
+    <legend>Vos coordonnées</legend>
+    <div class="field">
+        <label for="name">Nom :</label>
+        <input type="text" id="name" name="name" maxlength="25" required><span class="validity"></span>
+    </div>
+    <div class="field">
+        <label for="firstname">Prénom :</label>
+        <input type="text" id="firstname" name="firstname" maxlength="25" required><span class="validity"></span>
+    </div>
+    <div class="field">
+        <label for="email">Email :</label>
+        <input type="email" id="email" name="firstname" maxlength="40" required><span class="validity"></span>
+    </div>
+    <div class="field">
+        <label for="phone">Tél. : </label>
+        <input type="phone" id="phone" name="phone" maxlength="14" placeholder="0601020304" required><span class="validity"></span>
+    </div>
+    <div class="field">
+        <label for="locality">Adresse : </label>
+        <input type="text" id="locality" name="locality" maxlength="50" required><span class="validity"></span>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>L’objet en panne</legend>
+    <div class="field">
+        <label for="category">Catégorie : </label>
+        <select id="category" name="category">
+            <optgroup label="électronique">
+                <option value="ordinateur fixe">ordinateur fixe</option>
+                <option value="ordinateur portable">ordinateur portable</option>
+                <option value="écran">écran</option>
+                <option value="imprimante">imprimante</option>
+                <option value="tv">tv</option>
+                <option value="lecteur dvd">lecteur DVD</option>
+                <option value="magnétoscope">magnétoscope</option>
+                <option value="console de jeux">console de jeux</option>
+                <option value="téléphone fixe">téléphone fixe</option>
+                <option value="téléphone portable">téléphone portable</option>
+            </optgroup>
+            <optgroup label="Petit électroménager">
+                <option value="grille-pain">grille pain</option>
+                <option value="mixeur">mixeur</option>
+                <option value="bouilloire">bouilloire</option>
+                <option value="aspirateur">aspirateur</option>
+                <option value="autre petit électroménager">autre petit électroménager</option>
+            </optgroup>
+            <optgroup label="Gros électroménager">
+                <option value="micro-ondes">four micro-ondes</option>
+                <option value="four">four</option>
+                <option value="plaque de cuisson">plaque de cuisson</option>
+            </optgroup>
+            <optgroup label="Divers">
+                <option value="luminaire">luminaire ou lampe</option>
+                <option value="machine à coudre">machine à coudre</option>
+                <option value="autre">autre</option>
+            </optgroup>
+        </select>
+    </div>
+
+    <div class="field">
+        <label for="object">Si autre : </label>
+        <input type="text" id="object" name="object" maxlength="50"><span class="validity"></span>
+    </div>
+    <div class="field">
+        <label for="brand">Marque : </label>
+        <input type="text" id="brand" name="brand" maxlength="10" placeholder="Sony,Phillips,..." required><span class="validity"></span>
+    </div>
+    <div class="field">
+        <label for="model">Modèle : </label>
+        <input type="text" id="model" name="model" maxlength="15" required><span class="validity"></span>
+    </div>
+    <div class="field">
+        <label for="year">Année d’achat : </label>
+        <input type="number" id="year" name="year" maxlength="4" placeholder="2010"><span class="validity"></span>
+    </div>
+    <div class="field">
+        <label for="problem">Description de la panne:</label>
+        <textarea id="problem" name="problem" maxlength="2048" placeholder="description détaillée et circonstanciée de la panne" required></textarea><span class="validity"></span>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>Vos tentatives de réparations</legend>
+
+    <div class="field">
+        <label for="research">Vos recherches sur le problème : </label>
+        <textarea id="research" name="research" maxlength="2048" placeholder="informations sur la panne, assistance du fabriquant, tuto internet, etc" required></textarea><span class="validity"></span>
+    </div>
+
+    <div class="field">
+        <label for="action">Vos actions de réparations : </label>
+        <textarea id="action" name="action" maxlength="2048" placeholder="réparations déjà tentées ou planifiées par vous même, et/ou avec un RepairCafé, un professionnel. Dites-nous aussi, le cas échéant, la raison pour laquelle vous ne faites pas réparer par un professionnel." required></textarea><span class="validity"></span>
+    </div>
+
+    <div class="field">
+        <label for="expectation">Ce que vous attendez du RepairCafé : </label>
+        <textarea id="expectation" name="expectation" maxlength="2048" placeholder="ce que vous attendez de l'Atelier, des outils, connaissance" required></textarea><span class="validity"></span>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>Votre engagement</legend>
+        <p>Ce que vous comptez faire pour nous aider, commencer par lire attentivement les notes que nous avons préparés pour nos ateliers, et les notes que nous ajoutons pour la réparation de votre objet. L'argent n'est ni sollicité, ni accepté pour la participation de nos ateliers.</p>
+        <p>Nous avons besoins avant tout votre intention, de vos efforts et votre temps pour la réparation de votre objet. Si l'objet n'a pas d'importance pour vous, si la réparation de votre objet réussi ou pas n'aura peu d'effet pour vous, nous seront très ennuyés de prendre en charge de votre objet, aussi bien dans la organisation et la mobilisation des réparateurs bénévoles, que dans l'opération qui risque aboutir plutôt à un échec dû fréquemment à des informations données erronées et des mauvaises pistes déjà échouées ailleurs, la répétition ne peut qu'empirer.</p>
+        <p>Nous avons besoin de vos efforts pour documenter votre problème et votre solution, de plus en plus des gens ont réussi à solutionner leur problème avant même de se déplacer à notre atelier, grâce à ce type d'effort de partage d'expérience que vous aurez fait.</p>
+        <p>Nous sommes une dizaine de bénévoles dans notre ateliers, et nous en avons besoin plus, pour maintenir la charge de travail actuel, et si possible prendre en charge plus de demande. Notre travail consiste à : traiter les emails de demandes, référencer les problèmes, diagnostiquer, rechercher solutions, et en fin, préparer la réparation, documenter les solutions.</p>
+    <div class="field">
+        <textarea id="commitment" name="commitment" maxlength="2048" required></textarea><span class="validity"></span>
+    </div>
+</fieldset>
+
+
+<fieldset>
+    <legend>Rendez-vous</legend>
+    <div class="field">
+        <label for="reparation_day">Date souhaitée de rendez-vous: </label>
+        <select id="reparation_day" name="reparation_day">
+            <option value="07/10">jeudi 07/10</option>
+            <option value="14/10">jeudi 14/10</option>
+        </select>
+    </div>
+</fieldset>
+
+<input type="submit" value="Envoyer">
+</form>
+{% endblock %} 
