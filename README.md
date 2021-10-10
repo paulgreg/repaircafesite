@@ -24,6 +24,11 @@ Expected features :
     python manage.py createsuperuser
     python manage.py runserver
 
+to explore :
+
+    python manage.py shell
+
+
 ### Database
 
 A MariaDB database via docker is used for developpement.
