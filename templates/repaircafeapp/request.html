@@ -52,24 +52,25 @@ textarea:valid ~ span.validity:after {
 <fieldset>
     <legend>Vos coordonnées</legend>
     <div class="field">
+        {{ form.name.errors }}
         <label for="name">Nom :</label>
-        <input type="text" id="name" name="name" maxlength="25" required><span class="validity"></span>
+        <input type="text" id="name" name="name" maxlength="25" value="{{ form.name }}" required><span class="validity"></span>
     </div>
     <div class="field">
         <label for="firstname">Prénom :</label>
-        <input type="text" id="firstname" name="firstname" maxlength="25" required><span class="validity"></span>
+        <input type="text" id="firstname" name="firstname" maxlength="25" value="{{ form.firstname }}" required><span class="validity"></span>
     </div>
     <div class="field">
         <label for="email">Email :</label>
-        <input type="email" id="email" name="firstname" maxlength="40" required><span class="validity"></span>
+        <input type="email" id="email" name="firstname" maxlength="40" value="{{ form.email }}"  required><span class="validity"></span>
     </div>
     <div class="field">
         <label for="phone">Tél. : </label>
-        <input type="phone" id="phone" name="phone" maxlength="14" placeholder="0601020304" required><span class="validity"></span>
+        <input type="phone" id="phone" name="phone" maxlength="14" value="{{ form.phone }}" required placeholder="0601020304"><span class="validity"></span>
     </div>
     <div class="field">
         <label for="locality">Adresse : </label>
-        <input type="text" id="locality" name="locality" maxlength="50" required><span class="validity"></span>
+        <input type="text" id="locality" name="locality" maxlength="50" value="{{ form.locality }}" required><span class="validity"></span>
     </div>
 </fieldset>
 
@@ -112,23 +113,24 @@ textarea:valid ~ span.validity:after {
 
     <div class="field">
         <label for="object">Si autre : </label>
-        <input type="text" id="object" name="object" maxlength="50"><span class="validity"></span>
+        <input type="text" id="object" name="object" maxlength="50" value="{{ form.object }}"><span class="validity"></span>
     </div>
     <div class="field">
         <label for="brand">Marque : </label>
-        <input type="text" id="brand" name="brand" maxlength="10" placeholder="Sony,Phillips,..." required><span class="validity"></span>
+        <input type="text" id="brand" name="brand" maxlength="10" value="{{ form.brand }}" required placeholder="Sony,Phillips,..."><span class="validity"></span>
     </div>
     <div class="field">
         <label for="model">Modèle : </label>
-        <input type="text" id="model" name="model" maxlength="15" required><span class="validity"></span>
+        <input type="text" id="model" name="model" maxlength="15" value="{{ form.model }} " required><span class="validity"></span>
     </div>
     <div class="field">
         <label for="year">Année d’achat : </label>
-        <input type="number" id="year" name="year" maxlength="4" placeholder="2010"><span class="validity"></span>
+        <input type="number" id="year" name="year" maxlength="4" value="{{ form.year }}" placeholder="2010"><span class="validity"></span>
     </div>
     <div class="field">
         <label for="problem">Description de la panne:</label>
-        <textarea id="problem" name="problem" maxlength="2048" placeholder="description détaillée et circonstanciée de la panne" required></textarea><span class="validity"></span>
+        <textarea id="problem" name="problem" maxlength="2048" required
+        placeholder="description détaillée et circonstanciée de la panne">{{ form.problem }}</textarea><span class="validity"></span>
     </div>
 </fieldset>
 
@@ -137,17 +139,21 @@ textarea:valid ~ span.validity:after {
 
     <div class="field">
         <label for="research">Vos recherches sur le problème : </label>
-        <textarea id="research" name="research" maxlength="2048" placeholder="informations sur la panne, assistance du fabriquant, tuto internet, etc" required></textarea><span class="validity"></span>
+        <textarea id="research" name="research" maxlength="2048" required 
+        placeholder="informations sur la panne, assistance du fabriquant, tuto internet, etc">{{ form.research }}</textarea><span class="validity"></span>
     </div>
 
     <div class="field">
-        <label for="action">Vos actions de réparations : </label>
-        <textarea id="action" name="action" maxlength="2048" placeholder="réparations déjà tentées ou planifiées par vous même, et/ou avec un RepairCafé, un professionnel. Dites-nous aussi, le cas échéant, la raison pour laquelle vous ne faites pas réparer par un professionnel." required></textarea><span class="validity"></span>
+        <label for="actions">Vos actions de réparations : </label>
+        <textarea id="actions" name="actions" maxlength="2048" required
+        placeholder="réparations déjà tentées ou planifiées par vous même, et/ou avec un RepairCafé, un professionnel. Dites-nous aussi, le cas échéant, la raison pour laquelle vous ne faites pas réparer par un professionnel."
+        >{{ form.actions }}</textarea><span class="validity"></span>
     </div>
 
     <div class="field">
         <label for="expectation">Ce que vous attendez du RepairCafé : </label>
-        <textarea id="expectation" name="expectation" maxlength="2048" placeholder="ce que vous attendez de l'Atelier, des outils, connaissance" required></textarea><span class="validity"></span>
+        <textarea id="expectation" name="expectation" maxlength="2048" required
+        placeholder="ce que vous attendez de l'Atelier, des outils, connaissance">{{ form.expectation }}</textarea><span class="validity"></span>
     </div>
 </fieldset>
 
@@ -158,7 +164,7 @@ textarea:valid ~ span.validity:after {
         <p>Nous avons besoin de vos efforts pour documenter votre problème et votre solution, de plus en plus des gens ont réussi à solutionner leur problème avant même de se déplacer à notre atelier, grâce à ce type d'effort de partage d'expérience que vous aurez fait.</p>
         <p>Nous sommes une dizaine de bénévoles dans notre ateliers, et nous en avons besoin plus, pour maintenir la charge de travail actuel, et si possible prendre en charge plus de demande. Notre travail consiste à : traiter les emails de demandes, référencer les problèmes, diagnostiquer, rechercher solutions, et en fin, préparer la réparation, documenter les solutions.</p>
     <div class="field">
-        <textarea id="commitment" name="commitment" maxlength="2048" required></textarea><span class="validity"></span>
+        <textarea id="commitment" name="commitment" maxlength="2048" required>{{ form.commitment }}</textarea><span class="validity"></span>
     </div>
 </fieldset>
 

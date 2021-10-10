@@ -4,7 +4,5 @@ from . import views
 
 app_name = 'repaircafeapp'
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('submit', views.submit, name='submit'),
-
+    path('request', views.index, name='request'),
 ]

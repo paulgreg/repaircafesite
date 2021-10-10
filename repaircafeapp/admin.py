@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from .models import Demand
+from .models import Request
 
-admin.site.register(Demand)
+admin.site.register(Request)
