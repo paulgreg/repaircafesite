@@ -5,10 +5,12 @@ from .models import RequestForm
 
 
 def index(request):
-
     if request.method == 'POST':
         form = RequestForm(request.POST)
+        print('post')
+        print(form.is_valid())
         if form.is_valid():
+            form.save()
             # return HttpResponseRedirect('./success')
             return render(request, 'repaircafeapp/success.html', {})
         else:

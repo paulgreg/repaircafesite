@@ -15,7 +15,6 @@ input, textarea, select {
 textarea {
     min-height: 100px;
 }
-
 @media screen and (min-device-width: 500px) {
     .field {
         flex-direction: row;
@@ -27,58 +26,63 @@ textarea {
         margin-right: 10px;
     }
 }
-
 span.validity {
     margin: 1px 0 0 4px;
+}
+.errorlist { /* django validation */
+    color: red;
+    font-weight: bold;
 }
 input:invalid ~ span.validity:after,
 textarea:invalid ~ span.validity:after {
     content: '✖';
     color: red;
 }
-
 input:valid ~ span.validity:after,
 textarea:valid ~ span.validity:after {
     content: '✓';
     color: green;
 }
-
 </style>
 <h1>Demande de réparation</h1>
-<form action="{% url 'repaircafeapp:submit' %}" method="post">
+<form action="{% url 'repaircafeapp:request' %}" method="post">
 {% csrf_token %}
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
+{% if form.non_field_errors %}<p><strong>{{ form.non_field_errors }}</strong><p>{% endif %}
 <fieldset>
     <legend>Vos coordonnées</legend>
+    {{ form.name_text.errors }}
     <div class="field">
-        {{ form.name.errors }}
         <label for="name">Nom :</label>
-        <input type="text" id="name" name="name" maxlength="25" value="{{ form.name }}" required><span class="validity"></span>
+        <input type="text" id="name" name="name_text" maxlength="25" value="{{ form.name }}" required><span class="validity"></span>
     </div>
+    {{ form.firstname_text.errors }}
     <div class="field">
         <label for="firstname">Prénom :</label>
-        <input type="text" id="firstname" name="firstname" maxlength="25" value="{{ form.firstname }}" required><span class="validity"></span>
+        <input type="text" id="firstname" name="firstname_text" maxlength="25" value="{{ form.firstname }}" required><span class="validity"></span>
     </div>
+    {{ form.email_text.errors }}
     <div class="field">
         <label for="email">Email :</label>
-        <input type="email" id="email" name="firstname" maxlength="40" value="{{ form.email }}"  required><span class="validity"></span>
+        <input type="email" id="email" name="email_text" maxlength="40" value="{{ form.email }}"  required><span class="validity"></span>
     </div>
+    {{ form.phone_text.errors }}
     <div class="field">
         <label for="phone">Tél. : </label>
-        <input type="phone" id="phone" name="phone" maxlength="14" value="{{ form.phone }}" required placeholder="0601020304"><span class="validity"></span>
+        <input type="phone" id="phone" name="phone_text" maxlength="14" value="{{ form.phone }}" required placeholder="0601020304"><span class="validity"></span>
     </div>
+    {{ form.locality_text.errors }}
     <div class="field">
         <label for="locality">Adresse : </label>
-        <input type="text" id="locality" name="locality" maxlength="50" value="{{ form.locality }}" required><span class="validity"></span>
+        <input type="text" id="locality" name="locality_text" maxlength="50" value="{{ form.locality }}" required><span class="validity"></span>
     </div>
 </fieldset>
 
 <fieldset>
     <legend>L’objet en panne</legend>
+    {{ form.category_text.errors }}
     <div class="field">
         <label for="category">Catégorie : </label>
-        <select id="category" name="category">
+        <select id="category" name="category_text">
             <optgroup label="électronique">
                 <option value="ordinateur fixe">ordinateur fixe</option>
                 <option value="ordinateur portable">ordinateur portable</option>
@@ -110,76 +114,77 @@ textarea:valid ~ span.validity:after {
             </optgroup>
         </select>
     </div>
-
+    {{ form.object_text.errors }}
     <div class="field">
         <label for="object">Si autre : </label>
-        <input type="text" id="object" name="object" maxlength="50" value="{{ form.object }}"><span class="validity"></span>
+        <input type="text" id="object" name="object_text" maxlength="50" value="{{ form.object }}"><span class="validity"></span>
     </div>
+    {{ form.brand_text.errors }}
     <div class="field">
         <label for="brand">Marque : </label>
-        <input type="text" id="brand" name="brand" maxlength="10" value="{{ form.brand }}" required placeholder="Sony,Phillips,..."><span class="validity"></span>
+        <input type="text" id="brand" name="brand_text" maxlength="10" value="{{ form.brand }}" required placeholder="Sony,Phillips,..."><span class="validity"></span>
     </div>
+    {{ form.model_text.errors }}
     <div class="field">
         <label for="model">Modèle : </label>
-        <input type="text" id="model" name="model" maxlength="15" value="{{ form.model }} " required><span class="validity"></span>
+        <input type="text" id="model" name="model_text" maxlength="15" value="{{ form.model }} " required><span class="validity"></span>
     </div>
+    {{ form.year_text.errors }}
     <div class="field">
         <label for="year">Année d’achat : </label>
-        <input type="number" id="year" name="year" maxlength="4" value="{{ form.year }}" placeholder="2010"><span class="validity"></span>
+        <input type="number" id="year" name="year_text" maxlength="4" value="{{ form.year }}" placeholder="2010"><span class="validity"></span>
     </div>
+    {{ form.problem_text.errors }}
     <div class="field">
         <label for="problem">Description de la panne:</label>
-        <textarea id="problem" name="problem" maxlength="2048" required
+        <textarea id="problem" name="problem_text" maxlength="2048" required
         placeholder="description détaillée et circonstanciée de la panne">{{ form.problem }}</textarea><span class="validity"></span>
     </div>
 </fieldset>
-
 <fieldset>
     <legend>Vos tentatives de réparations</legend>
-
+    {{ form.research_text.errors }}
     <div class="field">
         <label for="research">Vos recherches sur le problème : </label>
-        <textarea id="research" name="research" maxlength="2048" required 
+        <textarea id="research" name="research_text" maxlength="2048" required 
         placeholder="informations sur la panne, assistance du fabriquant, tuto internet, etc">{{ form.research }}</textarea><span class="validity"></span>
     </div>
-
+    {{ form.actions_text.errors }}
     <div class="field">
         <label for="actions">Vos actions de réparations : </label>
-        <textarea id="actions" name="actions" maxlength="2048" required
+        <textarea id="actions" name="actions_text" maxlength="2048" required
         placeholder="réparations déjà tentées ou planifiées par vous même, et/ou avec un RepairCafé, un professionnel. Dites-nous aussi, le cas échéant, la raison pour laquelle vous ne faites pas réparer par un professionnel."
         >{{ form.actions }}</textarea><span class="validity"></span>
     </div>
-
+    {{ form.expectation_text.errors }}
     <div class="field">
         <label for="expectation">Ce que vous attendez du RepairCafé : </label>
-        <textarea id="expectation" name="expectation" maxlength="2048" required
+        <textarea id="expectation" name="expectation_text" maxlength="2048" required
         placeholder="ce que vous attendez de l'Atelier, des outils, connaissance">{{ form.expectation }}</textarea><span class="validity"></span>
     </div>
 </fieldset>
-
 <fieldset>
     <legend>Votre engagement</legend>
-        <p>Ce que vous comptez faire pour nous aider, commencer par lire attentivement les notes que nous avons préparés pour nos ateliers, et les notes que nous ajoutons pour la réparation de votre objet. L'argent n'est ni sollicité, ni accepté pour la participation de nos ateliers.</p>
-        <p>Nous avons besoins avant tout votre intention, de vos efforts et votre temps pour la réparation de votre objet. Si l'objet n'a pas d'importance pour vous, si la réparation de votre objet réussi ou pas n'aura peu d'effet pour vous, nous seront très ennuyés de prendre en charge de votre objet, aussi bien dans la organisation et la mobilisation des réparateurs bénévoles, que dans l'opération qui risque aboutir plutôt à un échec dû fréquemment à des informations données erronées et des mauvaises pistes déjà échouées ailleurs, la répétition ne peut qu'empirer.</p>
-        <p>Nous avons besoin de vos efforts pour documenter votre problème et votre solution, de plus en plus des gens ont réussi à solutionner leur problème avant même de se déplacer à notre atelier, grâce à ce type d'effort de partage d'expérience que vous aurez fait.</p>
-        <p>Nous sommes une dizaine de bénévoles dans notre ateliers, et nous en avons besoin plus, pour maintenir la charge de travail actuel, et si possible prendre en charge plus de demande. Notre travail consiste à : traiter les emails de demandes, référencer les problèmes, diagnostiquer, rechercher solutions, et en fin, préparer la réparation, documenter les solutions.</p>
+    <p>Ce que vous comptez faire pour nous aider, commencer par lire attentivement les notes que nous avons préparés pour nos ateliers, et les notes que nous ajoutons pour la réparation de votre objet. L'argent n'est ni sollicité, ni accepté pour la participation de nos ateliers.</p>
+    <p>Nous avons besoins avant tout votre intention, de vos efforts et votre temps pour la réparation de votre objet. Si l'objet n'a pas d'importance pour vous, si la réparation de votre objet réussi ou pas n'aura peu d'effet pour vous, nous seront très ennuyés de prendre en charge de votre objet, aussi bien dans la organisation et la mobilisation des réparateurs bénévoles, que dans l'opération qui risque aboutir plutôt à un échec dû fréquemment à des informations données erronées et des mauvaises pistes déjà échouées ailleurs, la répétition ne peut qu'empirer.</p>
+    <p>Nous avons besoin de vos efforts pour documenter votre problème et votre solution, de plus en plus des gens ont réussi à solutionner leur problème avant même de se déplacer à notre atelier, grâce à ce type d'effort de partage d'expérience que vous aurez fait.</p>
+    <p>Nous sommes une dizaine de bénévoles dans notre ateliers, et nous en avons besoin plus, pour maintenir la charge de travail actuel, et si possible prendre en charge plus de demande. Notre travail consiste à : traiter les emails de demandes, référencer les problèmes, diagnostiquer, rechercher solutions, et en fin, préparer la réparation, documenter les solutions.</p>
+    {{ form.commitment_text.errors }}
     <div class="field">
-        <textarea id="commitment" name="commitment" maxlength="2048" required>{{ form.commitment }}</textarea><span class="validity"></span>
+        <textarea id="commitment" name="commitment_text" maxlength="2048" required>{{ form.commitment }}</textarea><span class="validity"></span>
     </div>
 </fieldset>
-
-
 <fieldset>
     <legend>Rendez-vous</legend>
+    {{ form.reparation_day_text.errors }}
     <div class="field">
         <label for="reparation_day">Date souhaitée de rendez-vous: </label>
-        <select id="reparation_day" name="reparation_day">
+        <select id="reparation_day" name="reparation_day_text">
             <option value="07/10">jeudi 07/10</option>
             <option value="14/10">jeudi 14/10</option>
         </select>
     </div>
 </fieldset>
-
 <input type="submit" value="Envoyer">
 </form>
 {% endblock %} 
