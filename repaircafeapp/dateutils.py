@@ -1,4 +1,5 @@
 import datetime
+from functools import partial
 
 
 def next_weekday(d, weekday):
@@ -12,9 +13,13 @@ def next_thursday(d=datetime.datetime.now()):
     return next_weekday(d, 3)  # 0 = Monday, 1=Tuesday, 2=Wednesday...
 
 
-def next_thursdays():
-    d = datetime.datetime.now()
-    next1 = next_thursday(d)
-    next2 = next_thursday(next1)
-    next3 = next_thursday(next2)
-    return [next1, next2, next3]
+def next_thursdays(t=4):
+    last = datetime.datetime.now()
+    nexts = list()
+
+    for i in range(t):
+        next = next_thursday(last)
+        nexts.append(next)
+        last = next
+
+    return nexts

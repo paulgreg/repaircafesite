@@ -1,13 +1,34 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from .models import RequestForm
+from .models import RequestForm, getRequestCountByDates
 from .dateutils import next_thursdays
+from functools import partial
+
+MAX_PLACES = 5
+
+
+def getIsoDateAndDate(a, d):
+    iso = d.date().isoformat()
+    count = a.get(iso) or 0
+    return {'date': d.date(), 'iso': iso, 'places': 5 - count}
+
+
+def getAvailibility(date):
+    return {'iso': date.get('reparation_day_text'), 'count': date.get('count')}
+
+
+def getDatesWithAvailabilities():
+    requestCount = getRequestCountByDates()
+
+    nextdates = list(
+        map(partial(getIsoDateAndDate, requestCount), next_thursdays()))
+    print(nextdates)
+    return nextdates
 
 
 def index(request):
-    nextdates = next_thursdays()
-
+    nextdates = getDatesWithAvailabilities()
     if request.method == 'POST':
         form = RequestForm(request.POST)
         if form.is_valid():
