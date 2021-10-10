@@ -180,8 +180,9 @@ textarea:valid ~ span.validity:after {
     <div class="field">
         <label for="reparation_day">Date souhaitée de rendez-vous: </label>
         <select id="reparation_day" name="reparation_day_text">
-            <option value="07/10">jeudi 07/10</option>
-            <option value="14/10">jeudi 14/10</option>
+            {% for next in nextdates %}
+                <option value="{{ next.date.isoformat }}">jeudi {{ next.date }}</option>
+            {% endfor %}
         </select>
     </div>
 </fieldset>

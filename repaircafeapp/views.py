@@ -2,19 +2,19 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from .models import RequestForm
+from .dateutils import next_thursdays
 
 
 def index(request):
+    nextdates = next_thursdays()
+
     if request.method == 'POST':
         form = RequestForm(request.POST)
-        print('post')
-        print(form.is_valid())
         if form.is_valid():
             form.save()
-            # return HttpResponseRedirect('./success')
             return render(request, 'repaircafeapp/success.html', {})
         else:
-            return render(request, 'repaircafeapp/request.html', {'form': form})
+            return render(request, 'repaircafeapp/request.html', {'form': form, 'nextdates': nextdates})
 
     form = RequestForm()
     # to debug
@@ -31,4 +31,4 @@ def index(request):
     form.actions = 'blabla'
     form.expectation = 'blabla'
     form.commitment = 'blabla'
-    return render(request, 'repaircafeapp/request.html', {'form': form})
+    return render(request, 'repaircafeapp/request.html', {'form': form, 'nextdates': nextdates})
