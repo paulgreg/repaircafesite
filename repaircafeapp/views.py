@@ -1,24 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from .models import RequestForm, getRequestCountByDates
-from .dateutils import next_thursdays
+from .models import RequestForm, getRequestCountByDates, getNextRequests
+from .dateutils import next_thursdays, next_thursday
 from functools import partial
 from django.conf import settings
 
 
-def getIsoDateAndDate(a, d):
-    iso = d.date().isoformat()
-    count = a.get(iso) or 0
-    return {'date': d.date(), 'iso': iso, 'places': settings.MAX_PLACES - count}
-
-
-def getAvailibility(date):
-    return {'iso': date.get('reparation_day_text'), 'count': date.get('count')}
+def getIsoDateAndDate(requestCount, date):
+    iso = date.date().isoformat()
+    count = requestCount.get(iso) or 0
+    return {'date': date.date(), 'iso': iso, 'places': settings.MAX_PLACES - count}
 
 
 def getDatesWithAvailabilities():
     requestCount = getRequestCountByDates()
+    print(requestCount)
 
     nextdates = list(
         map(partial(getIsoDateAndDate, requestCount), next_thursdays()))
@@ -52,3 +49,8 @@ def index(request):
     form.expectation = 'blabla'
     form.commitment = 'blabla'
     return render(request, 'repaircafeapp/request.html', {'form': form, 'nextdates': nextdates})
+
+
+def agenda(request):
+    events = getNextRequests(next_thursday())
+    return render(request, 'repaircafeapp/agenda.html', {'events': events})

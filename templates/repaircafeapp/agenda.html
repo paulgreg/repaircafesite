@@ -1,0 +1,25 @@
+{% extends "repaircafeapp/base.html" %}
+{% block content %}
+<h1>Agenda</h1>
+<h2>Prochaines sessions de réparation</h2>
+
+{% regroup events by reparation_date as events_by_date %}
+
+{% for event_by_date in events_by_date %}
+    <h3>{{ event_by_date.grouper }}</h3>
+    <ol>
+        {% for e in event_by_date.list %}
+            <li>
+                {{ e.firstname_text }}
+                {{ e.category_text }}
+                {{ e.object_text }}
+                {{ e.brand_text }}
+                {{ e.model_text }}
+                {{ e.year_text }}
+                {{ e.problem_text }}
+            </li>
+        {% endfor %}
+    </ol>
+{% endfor %}
+
+{% endblock %} 

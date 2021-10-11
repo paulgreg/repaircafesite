@@ -22,22 +22,26 @@ class Request(models.Model):
     expectation_text = models.CharField(max_length=2048)
     commitment_text = models.CharField(max_length=2048)
 
-    reparation_day_text = models.CharField(max_length=10)
+    reparation_date = models.DateField()
 
     def __str__(self):
-        return self.category_text
+        return self.reparation_date.isoformat() + '->' + self.category_text
 
 
 class RequestForm(ModelForm):
     class Meta:
         model = Request
         fields = ['name_text', 'firstname_text', 'email_text', 'phone_text', 'locality_text', 'category_text', 'object_text', 'brand_text', 'model_text',
-                  'year_text', 'problem_text', 'research_text', 'actions_text', 'expectation_text', 'commitment_text', 'reparation_day_text']
+                  'year_text', 'problem_text', 'research_text', 'actions_text', 'expectation_text', 'commitment_text', 'reparation_date']
 
 
 def getRequestCountByDates():
-    requestsByDate = Request.objects.values('reparation_day_text').annotate(
-        count=Count('reparation_day_text')).order_by()
+    requestsByDate = Request.objects.values('reparation_date').annotate(
+        count=Count('reparation_date')).order_by()
 
-    return {x.get('reparation_day_text'): x.get('count')
+    return {x.get('reparation_date').isoformat(): x.get('count')
             for x in requestsByDate}
+
+
+def getNextRequests(filterFromDate):
+    return Request.objects.filter(reparation_date__gte=filterFromDate.date().isoformat()).order_by('reparation_date')
