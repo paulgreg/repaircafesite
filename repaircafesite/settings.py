@@ -150,3 +150,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 WIKI_ACCOUNT_HANDLING = False
 WIKI_ACCOUNT_SIGNUP_ALLOWED = False
+
+# RepairCafe constants
+
+MAX_FUTURES_EVENTS = 4
+MAX_PLACES = 5

@@ -4,14 +4,13 @@ from django.template import loader
 from .models import RequestForm, getRequestCountByDates
 from .dateutils import next_thursdays
 from functools import partial
-
-MAX_PLACES = 5
+from django.conf import settings
 
 
 def getIsoDateAndDate(a, d):
     iso = d.date().isoformat()
     count = a.get(iso) or 0
-    return {'date': d.date(), 'iso': iso, 'places': 5 - count}
+    return {'date': d.date(), 'iso': iso, 'places': settings.MAX_PLACES - count}
 
 
 def getAvailibility(date):
