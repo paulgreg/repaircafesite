@@ -1,6 +1,28 @@
-body {
-    margin: 1em;
+.navbar {
+    border-bottom: 1px solid black;
+    padding: 0;
 }
+.navbar-menu {
+    flex: 1;
+}
+.navbar-nav li {
+    margin: .25em;
+}
+.navbar-nav li a {
+    color: darkblue;
+}
+.navbar-nav li a:hover {
+    color: black;
+}
+
+#main {
+    margin-top: 1em;
+}
+
+#wiki-footer {
+    font-size: small;
+}
+
 legend {
     margin: 10px auto 4px auto;
 }

@@ -18,7 +18,7 @@ def next_thursdays():
     last = datetime.datetime.now()
     nexts = list()
 
-    for i in range(settings.MAX_FUTURES_EVENTS):
+    for i in range(settings.REPAIRCAFE_MAX_FUTURES_EVENTS):
         next = next_thursday(last)
         nexts.append(next)
         last = next

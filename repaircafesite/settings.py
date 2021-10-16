@@ -70,6 +70,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'repaircafesite.context_processors.add_constants',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.i18n',
                 'django.template.context_processors.media',
@@ -79,8 +80,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                "sekizai.context_processors.sekizai",
-
+                'sekizai.context_processors.sekizai',
             ],
         },
     },
@@ -127,6 +127,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'fr-fr'
+LANG = 'fr'
 
 TIME_ZONE = 'Europe/Paris'
 
@@ -153,5 +154,7 @@ WIKI_ACCOUNT_SIGNUP_ALLOWED = False
 
 # RepairCafe constants
 
-MAX_FUTURES_EVENTS = 4
-MAX_PLACES = 5
+REPAIRCAFE_TITLE = "RepairCafé Gobelins"
+REPAIRCAFE_ROBOTS = "noindex,nofollow"
+REPAIRCAFE_MAX_FUTURES_EVENTS = 4
+REPAIRCAFE_MAX_SEATS = 5

@@ -10,7 +10,7 @@ from django.conf import settings
 def getIsoDateAndDate(requestCount, date):
     iso = date.date().isoformat()
     count = requestCount.get(iso) or 0
-    return {'date': date.date(), 'iso': iso, 'places': settings.MAX_PLACES - count}
+    return {'date': date.date(), 'iso': iso, 'places': settings.REPAIRCAFE_MAX_SEATS - count}
 
 
 def getDatesWithAvailabilities():
