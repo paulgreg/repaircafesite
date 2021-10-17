@@ -1,25 +1,42 @@
 {% extends "wiki/base_site.html" %}
 {% block main_content %}
-<h1>Agenda</h1>
-<h2>Prochaines sessions de réparation</h2>
+<style>
+.next_events_title{
+    margin-bottom: .5em;
+}
+.event_date {
+    border-bottom: 1px solid darkblue;
+}
+.repair_demand {
+    display:block;
+    margin-top: 1em;
+}
+.paragraph {
+    margin: .25em;
+}
+</style>
+<h1 class="next_events_title">Agenda des prochaines sessions de réparation</h1>
 
 {% regroup events by reparation_date as events_by_date %}
 
 {% for event_by_date in events_by_date %}
-    <h3>{{ event_by_date.grouper }}</h3>
-    <ol>
-        {% for e in event_by_date.list %}
-            <li>
-                {{ e.firstname_text }}
-                {{ e.category_text }}
-                {{ e.object_text }}
-                {{ e.brand_text }}
-                {{ e.model_text }}
-                {{ e.year_text }}
-                {{ e.problem_text }}
-            </li>
-        {% endfor %}
-    </ol>
+    <h2 class="event_date">{{ event_by_date.grouper }}</h2>
+    {% for e in event_by_date.list %}
+    <div class="repair_demand">
+        <h3>{{ e.firstname_text }} pour un(e) 
+            <strong>{% if e.category_text != 'autre' %}{{ e.category_text }}{% else %}{{ e.object_text }}{% endif %} {{ e.brand_text }}</strong>
+            <small>({{ e.model_text }})</small>
+        </h3>
+        <p class="paragraph"><strong>Problème</strong> : {{ e.problem_text }}</p>
+        <p class="paragraph"><strong>Recherches</strong> : {{ e.research_text }}</p>
+        <p class="paragraph"><strong>Actions</strong> : {{ e.actions_text }}</p>
+        <p class="paragraph"><strong>Attentes</strong> : {{ e.expectations_text }}</p>
+        <p class="paragraph"><strong>Engagement</strong> : {{ e.commitment_text }}</p>
+    </div>
+    {% endfor %}
+{% empty %}
+<p>Aucune demande de réparation prévue.</p>
 {% endfor %}
+
 
 {% endblock %} 
