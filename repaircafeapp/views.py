@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template import loader
-from .models import RequestForm, getRequestCountByDates, getNextRequests
+from .models import RequestForm, getRequestCountByDates, getNextRequests, findByToken
 from .dateutils import next_thursdays, next_thursday
 from functools import partial
 from django.conf import settings
+from django.urls import reverse
 
 
 def getIsoDateAndDate(requestCount, date):
@@ -25,30 +26,50 @@ def getDatesWithAvailabilities():
 
 def index(request):
     nextdates = getDatesWithAvailabilities()
+    action = reverse('repaircafeapp:request')
     if request.method == 'POST':
         form = RequestForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request, 'repaircafeapp/success.html', {})
+            return render(request, 'repaircafeapp/success.html', {'model': form.instance})
         else:
-            return render(request, 'repaircafeapp/request.html', {'form': form, 'nextdates': nextdates})
+            return render(request, 'repaircafeapp/request.html', {'action': action, 'form': form, 'nextdates': nextdates})
 
     form = RequestForm()
     # to debug
-    form.name = 'Dupont'
-    form.firstname = 'Jacques'
-    form.email = 'jacques@dupont.fr'
-    form.phone = '0612345678'
-    form.locality = 'Paris'
-    form.brand = 'sony'
-    form.model = 'STR550'
-    form.year = '2010'
-    form.problem = 'mon problème...'
-    form.research = 'blabla'
-    form.actions = 'blabla'
-    form.expectation = 'blabla'
-    form.commitment = 'blabla'
-    return render(request, 'repaircafeapp/request.html', {'form': form, 'nextdates': nextdates})
+    form.instance.name_text = 'Dupont'
+    form.instance.firstname_text = 'Jacques'
+    form.instance.email_text = 'jacques@dupont.fr'
+    form.instance.phone_text = '0612345678'
+    form.instance.locality_text = 'Paris'
+    form.instance.brand_text = 'sony'
+    form.instance.model_text = 'STR550'
+    form.instance.year_text = '2010'
+    form.instance.problem_text = 'mon problème...'
+    form.instance.research_text = 'blabla'
+    form.instance.actions_text = 'blabla'
+    form.instance.expectation_text = 'blabla'
+    form.instance.commitment_text = 'blabla'
+    return render(request, 'repaircafeapp/request.html', {'action': action, 'form': form, 'nextdates': nextdates})
+
+
+def edit(request, token):
+    action = reverse('repaircafeapp:edit', kwargs={'token': token})
+    nextdates = getDatesWithAvailabilities()
+    model = findByToken(token)
+    if (not model):
+        raise Http404('Demande non trouvée')
+
+    if request.method == 'POST':
+        form = RequestForm(instance=model, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'repaircafeapp/success.html', {'model': form.instance})
+        else:
+            return render(request, 'repaircafeapp/request.html', {'action': action, 'form': form, 'nextdates': nextdates})
+
+    form = RequestForm(instance=model)
+    return render(request, 'repaircafeapp/request.html', {'action': action, 'form': form, 'nextdates': nextdates})
 
 
 def agenda(request):

@@ -1,6 +1,7 @@
 from django.db import models
 from django.forms import ModelForm
 from django.db.models import Count
+import uuid
 
 
 class Request(models.Model):
@@ -9,20 +10,22 @@ class Request(models.Model):
     email_text = models.CharField(max_length=40)
     phone_text = models.CharField(max_length=14)
     locality_text = models.CharField(max_length=50)
-
     category_text = models.CharField(max_length=16)
     object_text = models.CharField(max_length=50, blank=True)
     brand_text = models.CharField(max_length=10)
     model_text = models.CharField(max_length=15)
     year_text = models.CharField(max_length=4, blank=True)
-
     problem_text = models.CharField(max_length=2048)
     research_text = models.CharField(max_length=2048)
     actions_text = models.CharField(max_length=2048)
     expectation_text = models.CharField(max_length=2048)
     commitment_text = models.CharField(max_length=2048)
-
     reparation_date = models.DateField()
+    token_text = models.CharField(max_length=32)
+
+    def save(self, *args, **kwargs):
+        self.token_text = self.token_text or uuid.uuid4().hex
+        super(Request, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.reparation_date.isoformat() + '->' + self.category_text
@@ -41,6 +44,14 @@ def getRequestCountByDates():
 
     return {x.get('reparation_date').isoformat(): x.get('count')
             for x in requestsByDate}
+
+
+def findByToken(token):
+    return Request.objects.filter(token_text=token).first()
+
+
+def findByIdAndToken(id, token):
+    return Request.objects.filter(token_text=token, id=id).first()
 
 
 def getNextRequests(filterFromDate):

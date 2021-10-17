@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timedelta, timezone
 from functools import partial
 from django.conf import settings
 
@@ -7,15 +7,15 @@ def next_weekday(d, weekday):
     days_ahead = weekday - d.weekday()
     if days_ahead <= 0:  # Target day already happened this week
         days_ahead += 7
-    return d + datetime.timedelta(days_ahead)
+    return d + timedelta(days_ahead)
 
 
-def next_thursday(d=datetime.datetime.now()):
+def next_thursday(d=datetime.now()):
     return next_weekday(d, 3)  # 0 = Monday, 1=Tuesday, 2=Wednesday...
 
 
 def next_thursdays():
-    last = datetime.datetime.now()
+    last = datetime.now()
     nexts = list()
 
     for i in range(settings.REPAIRCAFE_MAX_FUTURES_EVENTS):

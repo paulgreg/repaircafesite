@@ -28,9 +28,9 @@
     <div class="collapse navbar-collapse" id="navbarColor02">
     {% block wiki_header_navlinks %}
     <ul class="nav navbar-nav navbar-menu">
-        <li class="active"><a href="{% url 'wiki:root' %}">Accueil</a> - </li>
-        <li class=""><a href="{% url 'repaircafeapp:agenda' %}">Agenda</a> - </li>
-        <li class=""><a href="{% url 'repaircafeapp:request' %}">Réparation</a></li>
+        <li><a href="{% url 'wiki:root' %}">Accueil</a> - </li>
+        <li><a href="{% url 'repaircafeapp:agenda' %}">Agenda</a> - </li>
+        <li><a href="{% url 'repaircafeapp:request' %}">Réparation</a></li>
     </ul>
     {% endblock %}
     <div id="nav-login">
@@ -82,7 +82,7 @@
     {% endif %}
     </div>
 
-    {% comment "no need for search for now" %}
+    {% comment "no search for now" %}
       <form class="form-inline" method="GET" action="{% spaceless %}
             {% if article or urlpath %}
                 {% url 'wiki:search' article_id=article.id path=urlpath.path %}
