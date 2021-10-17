@@ -24,12 +24,12 @@
     color: darkblue;
 }
 @media screen and (min-width: 1090px) {
-    .navbar-nav li:after {
+    .navbar-menu.navbar-nav li:after {
         content: "-";
         margin: 0 .5em 0 1em;
         color: black;
     }
-    .navbar-nav li:last-child:after {
+    .navbar-menu.navbar-nav li:last-child:after {
         display: none;
     }
 }
