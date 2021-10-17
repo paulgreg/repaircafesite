@@ -14,8 +14,8 @@ def getIsoDateAndDate(requestCount, date):
     return {'date': date.date(), 'iso': iso, 'places': settings.REPAIRCAFE_MAX_SEATS - count}
 
 
-def getDatesWithAvailabilities():
-    requestCount = getRequestCountByDates()
+def getDatesWithAvailabilities(token=''):
+    requestCount = getRequestCountByDates(token)
     print(requestCount)
 
     nextdates = list(
@@ -55,7 +55,7 @@ def index(request):
 
 def edit(request, token):
     action = reverse('repaircafeapp:edit', kwargs={'token': token})
-    nextdates = getDatesWithAvailabilities()
+    nextdates = getDatesWithAvailabilities(token)
     model = findByToken(token)
     if (not model):
         raise Http404('Demande non trouvée')

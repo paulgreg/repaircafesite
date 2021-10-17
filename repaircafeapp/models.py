@@ -38,8 +38,8 @@ class RequestForm(ModelForm):
                   'year_text', 'problem_text', 'research_text', 'actions_text', 'expectation_text', 'commitment_text', 'reparation_date']
 
 
-def getRequestCountByDates():
-    requestsByDate = Request.objects.values('reparation_date').annotate(
+def getRequestCountByDates(token=''):
+    requestsByDate = Request.objects.exclude(token_text=token).values('reparation_date').annotate(
         count=Count('reparation_date')).order_by()
 
     return {x.get('reparation_date').isoformat(): x.get('count')
