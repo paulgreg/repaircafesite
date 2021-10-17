@@ -6,13 +6,42 @@
     flex: 1;
 }
 .navbar-nav li {
-    margin: .25em;
+    margin: .5em;
 }
 .navbar-nav li a {
     color: darkblue;
 }
 .navbar-nav li a:hover {
     color: black;
+}
+.navbar-toggler {
+    border: 2px solid black;
+    line-height: unset;
+    margin-right: .25em;
+}
+.navbar-toggler-icon:before {
+    content: "☰";
+    color: darkblue;
+}
+@media screen and (min-width: 1090px) {
+    .navbar-nav li:after {
+        content: "-";
+        margin: 0 .5em 0 1em;
+        color: black;
+    }
+    .navbar-nav li:last-child:after {
+        display: none;
+    }
+}
+@media screen and (max-width: 600px) {
+    .navbar-brand {
+        width: 70%;
+        height: 70%;
+    }
+    .navbar-brand img {
+        width: 90%;
+        height: 90%;
+    }
 }
 
 #main {
