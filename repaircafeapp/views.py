@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from django.template import loader
-from .models import RequestForm, getRequestCountByDates, getNextRequests, findByToken
+from .models import RequestForm, getRequestCountByDates, getNextRequests, findByToken, areRequestCountFull
 from .dateutils import next_thursdays, next_thursday
 from functools import partial
 from django.conf import settings
@@ -18,14 +18,15 @@ def getDatesWithAvailabilities(token=''):
     requestCount = getRequestCountByDates(token)
     print(requestCount)
 
-    nextdates = list(
-        map(partial(getIsoDateAndDate, requestCount), next_thursdays()))
-    print(nextdates)
-    return nextdates
+    return list(map(partial(getIsoDateAndDate, requestCount), next_thursdays()))
 
 
 def index(request):
     nextdates = getDatesWithAvailabilities()
+
+    if(areRequestCountFull(nextdates)):
+        return render(request, 'repaircafeapp/full.html')
+
     action = reverse('repaircafeapp:request')
     if request.method == 'POST':
         form = RequestForm(request.POST)

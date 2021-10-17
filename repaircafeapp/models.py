@@ -1,6 +1,7 @@
 from django.db import models
 from django.forms import ModelForm
 from django.db.models import Count
+from django.conf import settings
 import uuid
 
 
@@ -44,6 +45,13 @@ def getRequestCountByDates(token=''):
 
     return {x.get('reparation_date').isoformat(): x.get('count')
             for x in requestsByDate}
+
+
+def areRequestCountFull(o):
+    for x in o:
+        if (x.get('places') == settings.REPAIRCAFE_MAX_SEATS):
+            return False
+    return True
 
 
 def findByToken(token):
