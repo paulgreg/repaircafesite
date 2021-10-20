@@ -158,3 +158,4 @@ REPAIRCAFE_TITLE = "RepairCafé Gobelins"
 REPAIRCAFE_ROBOTS = "noindex,nofollow"
 REPAIRCAFE_MAX_FUTURES_EVENTS = 4
 REPAIRCAFE_MAX_SEATS = 5
+REPAIRCAFE_EMAIL = "something@random.org"

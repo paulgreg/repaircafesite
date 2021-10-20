@@ -32,7 +32,7 @@ def index(request):
         form = RequestForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request, 'repaircafeapp/success.html', {'model': form.instance})
+            return render(request, 'repaircafeapp/success.html', {'model': form.instance, 'email': settings.REPAIRCAFE_EMAIL})
         else:
             return render(request, 'repaircafeapp/request.html', {'action': action, 'form': form, 'nextdates': nextdates})
 
@@ -65,7 +65,7 @@ def edit(request, token):
         form = RequestForm(instance=model, data=request.POST)
         if form.is_valid():
             form.save()
-            return render(request, 'repaircafeapp/success.html', {'model': form.instance})
+            return render(request, 'repaircafeapp/success.html', {'model': form.instance, 'email': settings.REPAIRCAFE_EMAIL})
         else:
             return render(request, 'repaircafeapp/request.html', {'action': action, 'form': form, 'nextdates': nextdates})
 
