@@ -152,6 +152,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 WIKI_ACCOUNT_HANDLING = False
 WIKI_ACCOUNT_SIGNUP_ALLOWED = False
 
+# Email configuration
+# EMAIL_HOST = ''
+# EMAIL_PORT = 0
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ''
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = True
+
 # RepairCafe constants
 
 REPAIRCAFE_TITLE = "RepairCafé Gobelins"
