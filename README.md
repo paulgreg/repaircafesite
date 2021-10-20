@@ -10,6 +10,18 @@ Expected features :
   - admin interface to update or cancel requests
 
 
+## Configuration
+
+Copy `repaircafesite/settings.py.dist` to `repaircafesite/settings.py` and change it according your needs.
+
+
+### for production
+
+ - update database password
+ - update `SECRET_KEY` in settings.py
+ - remove `DEBUG` flag in settings.py
+
+
 ## Installation
 
     python -m pip install Django
@@ -33,13 +45,4 @@ to explore :
 
 A MariaDB database via docker is used for developpement.
 
-A `reset.sh` script deletes db volume, recreate migration, superuser and runserver.
-
-## for production
-
- - update database password
- - update `SECRET_KEY` in settings.py
- - remove `DEBUG` flag in settings.py
-
-
-
+For development, a `reset.sh` script deletes db volume, recreate migration, superuser and runserver.
