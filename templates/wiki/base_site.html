@@ -35,7 +35,6 @@
     {% endblock %}
 
     <div id="nav-login">
-      {% comment "no login for now" %}
       {% if user.is_authenticated %}
               <ul class="navbar-nav">
               <li class="nav-item dropdown">
@@ -82,7 +81,6 @@
         {% endif %}
     </ul>
     {% endif %}
-    {% endcomment %}
     </div>
 
     {% comment "no search for now" %}
