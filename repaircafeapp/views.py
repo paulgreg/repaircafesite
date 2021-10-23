@@ -53,20 +53,20 @@ def index(request):
             return render(request, 'repaircafeapp/request.html', {'action': action, 'form': form, 'nextdates': nextdates})
 
     form = RequestForm()
-    # to debug
-    form.instance.name_text = 'Dupont'
-    form.instance.firstname_text = 'Jacques'
-    form.instance.email_text = 'jacques@dupont.fr'
-    form.instance.phone_text = '0612345678'
-    form.instance.locality_text = 'Paris'
-    form.instance.brand_text = 'sony'
-    form.instance.model_text = 'STR550'
-    form.instance.year_text = '2010'
-    form.instance.problem_text = 'mon problème...'
-    form.instance.research_text = 'blabla'
-    form.instance.actions_text = 'blabla'
-    form.instance.expectation_text = 'blabla'
-    form.instance.commitment_text = 'blabla'
+    if (settings.DEBUG):
+        form.instance.name_text = 'Dupont'
+        form.instance.firstname_text = 'Jacques'
+        form.instance.email_text = 'jacques@dupont.fr'
+        form.instance.phone_text = '0612345678'
+        form.instance.locality_text = 'Paris'
+        form.instance.brand_text = 'sony'
+        form.instance.model_text = 'STR550'
+        form.instance.year_text = '2010'
+        form.instance.problem_text = 'mon problème...'
+        form.instance.research_text = 'blabla'
+        form.instance.actions_text = 'blabla'
+        form.instance.expectation_text = 'blabla'
+        form.instance.commitment_text = 'blabla'
     return render(request, 'repaircafeapp/request.html', {'action': action, 'form': form, 'nextdates': nextdates})
 
 
