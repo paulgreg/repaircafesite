@@ -6,6 +6,7 @@ from .dateutils import next_wednesdays, next_wednesday
 from functools import partial
 from django.conf import settings
 from django.urls import reverse
+from django.core.mail import send_mail
 
 
 def getIsoDateAndDate(requestCount, date):
@@ -21,6 +22,22 @@ def getDatesWithAvailabilities(token=''):
     return list(map(partial(getIsoDateAndDate, requestCount), next_wednesdays()))
 
 
+def onSuccess(request, form):
+    form.save()
+    if (settings.REPAIRCAFE_SEND_EMAIL):
+        url = reverse('repaircafeapp:edit', kwargs={
+            'token': form.instance.token_text})
+        send_mail(
+            settings.REPAIRCAFE_EMAIL_CONFIRMATION_TITLE,
+            settings.REPAIRCAFE_EMAIL_CONFIRMATION_MESSAGE.format(
+                settings.REPAIRCAFE_HOST, url),
+            settings.REPAIRCAFE_EMAIL,
+            [settings.REPAIRCAFE_EMAIL, form.instance.email_text],
+            fail_silently=False,
+        )
+    return render(request, 'repaircafeapp/success.html', {'model': form.instance, 'email': settings.REPAIRCAFE_EMAIL})
+
+
 def index(request):
     nextdates = getDatesWithAvailabilities()
 
@@ -31,8 +48,7 @@ def index(request):
     if request.method == 'POST':
         form = RequestForm(request.POST)
         if form.is_valid():
-            form.save()
-            return render(request, 'repaircafeapp/success.html', {'model': form.instance, 'email': settings.REPAIRCAFE_EMAIL})
+            return onSuccess(request, form)
         else:
             return render(request, 'repaircafeapp/request.html', {'action': action, 'form': form, 'nextdates': nextdates})
 
@@ -64,8 +80,7 @@ def edit(request, token):
     if request.method == 'POST':
         form = RequestForm(instance=model, data=request.POST)
         if form.is_valid():
-            form.save()
-            return render(request, 'repaircafeapp/success.html', {'model': form.instance, 'email': settings.REPAIRCAFE_EMAIL})
+            return onSuccess(request, form)
         else:
             return render(request, 'repaircafeapp/request.html', {'action': action, 'form': form, 'nextdates': nextdates})
 

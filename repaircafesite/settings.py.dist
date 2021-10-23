@@ -151,10 +151,10 @@ DATABASES = {
 }
 
 # Email configuration
-# EMAIL_HOST = ''
-# EMAIL_PORT = 25
-# DEFAULT_FROM_EMAIL = ''
-# SERVER_EMAIL = ''
+EMAIL_HOST = ''
+EMAIL_PORT = 25
+DEFAULT_FROM_EMAIL = ''
+SERVER_EMAIL = ''
 # EMAIL_HOST_USER = ''
 # EMAIL_HOST_PASSWORD = ''
 # EMAIL_USE_TLS = True
@@ -167,3 +167,9 @@ REPAIRCAFE_EMAIL = "random@something.org"
 REPAIRCAFE_ROBOTS = "index,follow"
 REPAIRCAFE_MAX_FUTURES_EVENTS = 4
 REPAIRCAFE_MAX_SEATS = 5
+REPAIRCAFE_SEND_EMAIL = False
+REPAIRCAFE_EMAIL_CONFIRMATION_TITLE = 'RepairCafé - demande enregistré'
+REPAIRCAFE_EMAIL_CONFIRMATION_MESSAGE = """Votre demande de réparation a été enregistré.
+Vous pouvez la modifier à l’adresse suivante : {}{}
+A bientôt,
+L’équipe du RepairCafé """
