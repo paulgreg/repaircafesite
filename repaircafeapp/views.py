@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from django.template import loader
 from .models import RequestForm, getRequestCountByDates, getNextRequests, findByToken, areRequestCountFull
-from .dateutils import next_thursdays, next_thursday
+from .dateutils import next_wednesdays, next_wednesday
 from functools import partial
 from django.conf import settings
 from django.urls import reverse
@@ -18,7 +18,7 @@ def getDatesWithAvailabilities(token=''):
     requestCount = getRequestCountByDates(token)
     print(requestCount)
 
-    return list(map(partial(getIsoDateAndDate, requestCount), next_thursdays()))
+    return list(map(partial(getIsoDateAndDate, requestCount), next_wednesdays()))
 
 
 def index(request):
@@ -74,5 +74,5 @@ def edit(request, token):
 
 
 def agenda(request):
-    events = getNextRequests(next_thursday())
+    events = getNextRequests(next_wednesday())
     return render(request, 'repaircafeapp/agenda.html', {'events': events})

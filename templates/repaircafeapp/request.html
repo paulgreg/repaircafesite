@@ -184,7 +184,7 @@ textarea:valid ~ span.validity:after {
         <label for="reparation_day">Date souhaitée de rendez-vous: </label>
         <select id="reparation_day" name="reparation_date">
             {% for next in nextdates %}
-                <option value="{{ next.iso }}" {% if next.places <= 0 %}disabled{% endif %}>jeudi {{ next.date }} ({{ next.places }} places disponibles)</option>
+                <option value="{{ next.iso }}" {% if next.places <= 0 %}disabled{% endif %}>mercredi {{ next.date }} ({{ next.places }} places disponibles)</option>
             {% endfor %}
         </select>
     </div>

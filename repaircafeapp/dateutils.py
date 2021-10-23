@@ -10,16 +10,16 @@ def next_weekday(d, weekday):
     return d + timedelta(days_ahead)
 
 
-def next_thursday(d=datetime.now()):
-    return next_weekday(d, 3)  # 0 = Monday, 1=Tuesday, 2=Wednesday...
+def next_wednesday(d=datetime.now()):
+    return next_weekday(d, 2)  # 0 = Monday, 1=Tuesday, 2=Wednesday...
 
 
-def next_thursdays():
+def next_wednesdays():
     last = datetime.now()
     nexts = list()
 
     for i in range(settings.REPAIRCAFE_MAX_FUTURES_EVENTS):
-        next = next_thursday(last)
+        next = next_wednesday(last)
         nexts.append(next)
         last = next
 
