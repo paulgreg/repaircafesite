@@ -24,16 +24,20 @@ Copy `repaircafesite/settings.py.dist` to `repaircafesite/settings.py` and chang
 
 ## Installation
 
-    python -m pip install Django
-    python -m pip install pymysql
-    python -m pip install django_nyt
-    python -m pip install django-mptt
-    python -m pip install django-sekizai
-    python -m pip install sorl-thumbnail
-    python -m pip install wiki
+    python -m pip install Django pymysql django_nyt django-mptt django-sekizai sorl-thumbnail wiki
 
     python manage.py migrate
     python manage.py createsuperuser
+    python manage.py runserver
+
+
+## Development
+
+
+    docker-compose down --volume
+    docker-compose up -d
+    python manage.py migrate
+    python manage.py createsuperuser --username admin --email test@test.com
     python manage.py runserver
 
 to explore :
@@ -44,5 +48,3 @@ to explore :
 ### Database
 
 A MariaDB database via docker is used for developpement.
-
-For development, a `reset.sh` script deletes db volume, recreate migration, superuser and runserver.
