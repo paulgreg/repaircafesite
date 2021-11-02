@@ -7,6 +7,11 @@ from functools import partial
 from django.conf import settings
 from django.urls import reverse
 from django.core.mail import send_mail
+from django.contrib.sites.models import Site
+from wiki.models import Article
+from wiki.models import ArticleRevision
+from wiki.models import URLPath
+from slugify import slugify
 
 
 def getIsoDateAndDate(requestCount, date):
@@ -22,7 +27,7 @@ def getDatesWithAvailabilities(token=''):
     return list(map(partial(getIsoDateAndDate, requestCount), next_wednesdays()))
 
 
-def onSuccess(request, form):
+def onSuccess(request, form, slug):
     form.save()
     if (settings.REPAIRCAFE_SEND_EMAIL):
         url = reverse('repaircafeapp:edit', kwargs={
@@ -35,7 +40,39 @@ def onSuccess(request, form):
             [settings.REPAIRCAFE_EMAIL, form.instance.email_text],
             fail_silently=False,
         )
-    return render(request, 'repaircafeapp/success.html', {'model': form.instance, 'email': settings.REPAIRCAFE_EMAIL})
+    return render(request, 'repaircafeapp/success.html', {'model': form.instance, 'email': settings.REPAIRCAFE_EMAIL, 'slug': slug})
+
+
+def createWikiPage(instance):
+    site = Site.objects.first()
+
+    parent = URLPath.objects.filter(
+        slug=settings.REPAIRCAFE_PARENT_PAGE).first()
+
+    title = settings.REPAIRCAFE_PAGE_TITLE .format(instance.category_text,
+                                                   instance.brand_text, instance.model_text, instance.firstname_text
+                                                   )
+    slug = slugify(title)
+    url = "/{}/{}".format(settings.REPAIRCAFE_PARENT_PAGE, slug)
+
+    existingUrlPath = URLPath.objects.filter(
+        site=site, parent=parent, slug=slug).first()
+
+    if (existingUrlPath):
+        return url
+
+    article = Article.objects.create()
+    revision = ArticleRevision.objects.create(
+        article=article, title=title, content=settings.REPAIRCAFE_PAGE_CONTENT)
+
+    urlPath = URLPath.objects.create(
+        article=article, site=site, parent=parent, slug=slug)
+
+    article.save()
+    revision.save()
+    urlPath.save()
+
+    return url
 
 
 def index(request):
@@ -48,7 +85,8 @@ def index(request):
     if request.method == 'POST':
         form = RequestForm(request.POST)
         if form.is_valid():
-            return onSuccess(request, form)
+            slug = createWikiPage(form.instance)
+            return onSuccess(request, form, slug)
         else:
             return render(request, 'repaircafeapp/request.html', {'action': action, 'form': form, 'nextdates': nextdates})
 

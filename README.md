@@ -24,7 +24,8 @@ Copy `repaircafesite/settings.py.dist` to `repaircafesite/settings.py` and chang
 
 ## Installation
 
-    python -m pip install Django pymysql django_nyt django-mptt django-sekizai sorl-thumbnail wiki
+    python -m pip install Django pymysql django_nyt django-mptt django-sekizai sorl-thumbnail wiki python-slugify
+
 
     python manage.py migrate
     python manage.py createsuperuser

@@ -2,6 +2,12 @@
 {% block main_content %}
 <h1>Demande de réparation enregistrée</h1>
 <p>Votre demande de réparation a été enregistrée sous le <strong>n°{{ model.token_text }}</strong>.</p>
+
+{% if slug %}
+<p>Une page sur votre réparation a été créé au sein du wiki, 
+    vous pouvez y ajouter des photos et vidéos concernant le problème : <a href="{{slug }}">{{slug}}</a></p>
+{% endif %}
+
 <p>En cas d'indisponibilité, contactez-nous par email <a href="mailto:{{ email }}">{{ email }}</a>.</p>
 <p><a href="/">Revenir à l'accueil du site</a></p>
 {% endblock %} 

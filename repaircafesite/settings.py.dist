@@ -188,3 +188,6 @@ REPAIRCAFE_EMAIL_CONFIRMATION_MESSAGE = """Votre demande de réparation a été 
 Vous pouvez la modifier à l’adresse suivante : {}{}
 A bientôt,
 L’équipe du RepairCafé """
+REPAIRCAFE_PARENT_PAGE = 'reparations'
+REPAIRCAFE_PAGE_TITLE = 'Réparation d’un(e) {} {} {} par {}'
+REPAIRCAFE_PAGE_CONTENT = 'Ajoutez ici vos photos/vidéos'
