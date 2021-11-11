@@ -22,6 +22,11 @@ class Request(models.Model):
     expectation_text = models.CharField(max_length=2048)
     commitment_text = models.CharField(max_length=2048)
     reparation_date = models.DateField()
+    image1 = models.ImageField(upload_to='images', blank=True)
+    image2 = models.ImageField(upload_to='images', blank=True)
+    image3 = models.ImageField(upload_to='images', blank=True)
+    image4 = models.ImageField(upload_to='images', blank=True)
+    video1 = models.FileField(upload_to='videos', blank=True)
     token_text = models.CharField(max_length=32)
 
     def save(self, *args, **kwargs):
@@ -36,7 +41,8 @@ class RequestForm(ModelForm):
     class Meta:
         model = Request
         fields = ['name_text', 'firstname_text', 'email_text', 'phone_text', 'locality_text', 'category_text', 'object_text', 'brand_text', 'model_text',
-                  'year_text', 'problem_text', 'research_text', 'actions_text', 'expectation_text', 'commitment_text', 'reparation_date']
+                  'year_text', 'problem_text', 'research_text', 'actions_text', 'expectation_text', 'commitment_text', 'reparation_date',
+                  'image1', 'image2', 'image3', 'image4', 'video1']
 
 
 def getRequestCountByDates(token=''):

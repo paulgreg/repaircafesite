@@ -48,7 +48,7 @@ textarea:valid ~ span.validity:after {
 }
 </style>
 <h1>Demande de réparation</h1>
-<form action="{{ action }}" method="post">
+<form action="{{ action }}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 {% if form.instance.non_field_errors %}<p><strong>{{ form.instance.non_field_errors }}</strong><p>{% endif %}
 <fieldset>
@@ -142,6 +142,36 @@ textarea:valid ~ span.validity:after {
         <label for="problem">Description de la panne:</label>
         <textarea id="problem" name="problem_text" maxlength="2048" required
         placeholder="description détaillée et circonstanciée de la panne">{{ form.instance.problem_text }}</textarea><span class="validity"></span>
+    </div>
+    {{ form.instance.image1.errors }}
+    <div class="field">
+        <label for="image1">Image n°1 :</label>
+        <input type="file" id="image1" name="image1" accept="image/*" />
+        {% if form.instance.image1 %}<a href="{{ form.instance.image1.url }}" target="blank">{{ form.instance.image1 }}</a>{% endif %}
+    </div>
+    {{ form.instance.image2.errors }}
+    <div class="field">
+        <label for="image2">Image n°2 :</label>
+        <input type="file" id="image2" name="image2" accept="image/*" />
+        {% if form.instance.image2 %}<a href="{{ form.instance.image2.url }}" target="blank">{{ form.instance.image2 }}</a>{% endif %}
+    </div>
+    {{ form.instance.image3.errors }}
+    <div class="field">
+        <label for="image3">Image n°3 :</label>
+        <input type="file" id="image3" name="image3" accept="image/*" />
+        {% if form.instance.image3 %}<a href="{{ form.instance.image3.url }}" target="blank">{{ form.instance.image3 }}</a>{% endif %}
+    </div>
+    {{ form.instance.image4.errors }}
+    <div class="field">
+        <label for="image1">Image n°4 :</label>
+        <input type="file" id="image4" name="image4" accept="image/*" />
+        {% if form.instance.image4 %}<a href="{{ form.instance.image4.url }}" target="blank">{{ form.instance.image4 }}</a>{% endif %}
+    </div>
+    {{ form.instance.video1.errors }}
+    <div class="field">
+        <label for="video1">Video :</label>
+        <input type="file" id="video1" name="video1" accept="video/*" />
+        {% if form.instance.video1 %}<a href="{{ form.instance.video1.url }}" target="blank">{{ form.instance.video1 }}</a>{% endif %}
     </div>
 </fieldset>
 <fieldset>

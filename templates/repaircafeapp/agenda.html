@@ -14,6 +14,18 @@
 .paragraph {
     margin: .25em;
 }
+
+.image,
+.video {
+    display: block;
+}
+.image img,
+.video video {
+    max-width: 200px;
+    max-height: 200px;
+    border: 1px solid black;
+    margin: .25em 1em .5em 0;
+}
 </style>
 <h1 class="next_events_title">Agenda des prochaines sessions de réparation</h1>
 
@@ -32,6 +44,36 @@
         <p class="paragraph"><strong>Actions</strong> : {{ e.actions_text }}</p>
         <p class="paragraph"><strong>Attentes</strong> : {{ e.expectations_text }}</p>
         <p class="paragraph"><strong>Engagement</strong> : {{ e.commitment_text }}</p>
+
+        {% if e.image1 %}
+            <a href="{{ e.image1.url }}" target="blank" class="image">
+                <img src="{{ e.image1.url }}"/>{{ e.image1 }}
+            </a>
+        {% endif %}
+        {% if e.image2 %}
+            <a href="{{ e.image2.url }}" target="blank" class="image">
+                <img src="{{ e.image2.url }}"/>{{ e.image2 }}
+            </a>
+        {% endif %}
+        {% if e.image3 %}
+            <a href="{{ e.image3.url }}" target="blank" class="image">
+                <img src="{{ e.image3.url }}"/>{{ e.image3 }}
+            </a>
+        {% endif %}
+        {% if e.image4 %}
+            <a href="{{ e.image4.url }}" target="blank" class="image">
+                <img src="{{ e.image4.url }}"/>{{ e.image4 }}
+            </a>
+        {% endif %}
+        {% if e.video1 %}
+            <a href="{{ e.video1.url }}" target="blank" class="video">
+                <video controls>
+                    <source src="{{ e.video1.url }}" />
+                </video>
+                {{ e.video1 }}
+            </a>
+        {% endif %}
+
     </div>
     {% endfor %}
 {% empty %}

@@ -46,7 +46,7 @@ def index(request):
 
     action = reverse('repaircafeapp:request')
     if request.method == 'POST':
-        form = RequestForm(request.POST)
+        form = RequestForm(request.POST, request.FILES)
         if form.is_valid():
             return onSuccess(request, form)
         else:
@@ -64,7 +64,7 @@ def edit(request, token):
         raise Http404('Demande non trouvée')
 
     if request.method == 'POST':
-        form = RequestForm(instance=model, data=request.POST)
+        form = RequestForm(request.POST, request.FILES, instance=model)
         if form.is_valid():
             return onSuccess(request, form)
         else:
