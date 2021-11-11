@@ -4,3 +4,4 @@ __pycache__
 repaircafesite/settings.py
 wiki/images
 cache
+media
