@@ -2,3 +2,5 @@ __pycache__
 *.pyc
 .vscode/.ropeproject
 repaircafesite/settings.py
+wiki/images
+cache
