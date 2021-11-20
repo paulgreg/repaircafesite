@@ -1,12 +1,16 @@
-from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from django.template import loader
-from .models import RequestForm, getRequestCountByDates, getNextRequests, findByToken, areRequestCountFull
-from .dateutils import next_wednesdays, next_wednesday
-from functools import partial
 from django.conf import settings
 from django.urls import reverse
 from django.core.mail import send_mail
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.db import transaction
+from django.shortcuts import render, redirect
+from .models import RequestForm, UserForm, ProfileForm, getRequestCountByDates, getNextRequests, findByToken, areRequestCountFull
+from .dateutils import next_wednesdays, next_wednesday
+from functools import partial
 
 
 def getIsoDateAndDate(requestCount, date):
@@ -17,8 +21,6 @@ def getIsoDateAndDate(requestCount, date):
 
 def getDatesWithAvailabilities(token=''):
     requestCount = getRequestCountByDates(token)
-    print(requestCount)
-
     return list(map(partial(getIsoDateAndDate, requestCount), next_wednesdays()))
 
 
@@ -38,7 +40,14 @@ def onSuccess(request, form):
     return render(request, 'repaircafeapp/success.html', {'model': form.instance, 'email': settings.REPAIRCAFE_EMAIL})
 
 
+@transaction.atomic
 def index(request):
+    if not request.user.is_authenticated:
+        return render(request, 'repaircafeapp/notlogged.html', {'url': '%s?next=%s' % (settings.LOGIN_URL, request.path)})
+
+    if not request.user.email or not request.user.first_name or not request.user.last_name or not request.user.profile.phone_text or not request.user.profile.locality_text:
+        return render(request, 'repaircafeapp/noprofile.html')
+
     nextdates = getDatesWithAvailabilities()
 
     if(areRequestCountFull(nextdates)):
@@ -48,6 +57,7 @@ def index(request):
     if request.method == 'POST':
         form = RequestForm(request.POST, request.FILES)
         if form.is_valid():
+            form.instance.user = request.user
             return onSuccess(request, form)
         else:
             return render(request, 'repaircafeapp/request.html', {'action': action, 'form': form, 'nextdates': nextdates})
@@ -56,7 +66,11 @@ def index(request):
     return render(request, 'repaircafeapp/request.html', {'action': action, 'form': form, 'nextdates': nextdates})
 
 
+@transaction.atomic
 def edit(request, token):
+    if not request.user.is_authenticated:
+        return render(request, 'repaircafeapp/notlogged.html', {'url': '%s?next=%s' % (settings.LOGIN_URL, request.path)})
+
     action = reverse('repaircafeapp:edit', kwargs={'token': token})
     nextdates = getDatesWithAvailabilities(token)
     model = findByToken(token)
@@ -64,7 +78,8 @@ def edit(request, token):
         raise Http404('Demande non trouvée')
 
     if request.method == 'POST':
-        form = RequestForm(request.POST, request.FILES, instance=model)
+        form = RequestForm(request.POST, request.FILES,
+                           instance=model)
         if form.is_valid():
             return onSuccess(request, form)
         else:
@@ -72,6 +87,27 @@ def edit(request, token):
 
     form = RequestForm(instance=model)
     return render(request, 'repaircafeapp/request.html', {'action': action, 'form': form, 'nextdates': nextdates})
+
+
+@transaction.atomic
+def profile(request):
+    if not request.user.is_authenticated:
+        return render(request, 'repaircafeapp/notlogged.html', {'url': '%s?next=%s' % (settings.LOGIN_URL, request.path)})
+
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Votre profil est sauvegardé !')
+            return render(request, 'repaircafeapp/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+        else:
+            return render(request, 'repaircafeapp/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+    user_form = UserForm(instance=request.user)
+    profile_form = ProfileForm(instance=request.user.profile)
+    return render(request, 'repaircafeapp/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
 def agenda(request):

@@ -2,15 +2,14 @@ from django.db import models
 from django.forms import ModelForm
 from django.db.models import Count
 from django.conf import settings
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 import uuid
 
 
 class Request(models.Model):
-    name_text = models.CharField(max_length=25)
-    firstname_text = models.CharField(max_length=25)
-    email_text = models.CharField(max_length=40)
-    phone_text = models.CharField(max_length=14)
-    locality_text = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     category_text = models.CharField(max_length=16)
     object_text = models.CharField(max_length=50, blank=True)
     brand_text = models.CharField(max_length=10)
@@ -34,15 +33,16 @@ class Request(models.Model):
         super(Request, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.reparation_date.isoformat() + '->' + self.category_text
+        return self.user.username + ':' + self.reparation_date.isoformat() + '->' + self.category_text
 
 
 class RequestForm(ModelForm):
     class Meta:
         model = Request
-        fields = ['name_text', 'firstname_text', 'email_text', 'phone_text', 'locality_text', 'category_text', 'object_text', 'brand_text', 'model_text',
-                  'year_text', 'problem_text', 'research_text', 'actions_text', 'expectation_text', 'commitment_text', 'reparation_date',
-                  'image1', 'image2', 'image3', 'image4', 'video1']
+        fields = ['category_text', 'object_text', 'brand_text', 'model_text', 'year_text',
+                  'problem_text', 'research_text', 'actions_text', 'expectation_text', 'commitment_text',
+                  'reparation_date', 'image1', 'image2', 'image3', 'image4', 'video1']
+        exclude = ('user',)
 
 
 def getRequestCountByDates(token=''):
@@ -70,3 +70,32 @@ def findByIdAndToken(id, token):
 
 def getNextRequests(filterFromDate):
     return Request.objects.filter(reparation_date__gte=filterFromDate.date().isoformat()).order_by('reparation_date')
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone_text = models.CharField(max_length=14, blank=True)
+    locality_text = models.CharField(max_length=50, blank=True)
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['phone_text', 'locality_text']
+
+
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')

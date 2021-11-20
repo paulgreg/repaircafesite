@@ -1,0 +1,45 @@
+{% extends "wiki/base_site.html" %}
+{% block main_content %}
+<h1>Vos coordonnées</h1>
+<form action="{% url 'repaircafeapp:profile' %}" method="post" class="repaircafe">
+{% csrf_token %}
+{% if form.non_field_errors %}<p><strong>{{ form.non_field_errors }}</strong><p>{% endif %}
+<fieldset>
+    <legend>Veuillez renseigner tous les champs</legend>
+    {{ form.first_name.errors }}
+    <div class="field">
+        <label for="name">Nom :</label>
+        <input type="text" id="first_name" name="first_name" maxlength="25" value="{{ user_form.instance.first_name }}" required><span class="validity"></span>
+    </div>
+    {{ form.last_name.errors }}
+    <div class="field">
+        <label for="last_name">Prénom :</label>
+        <input type="text" id="last_name" name="last_name" maxlength="25" value="{{ user_form.instance.last_name }}" required><span class="validity"></span>
+    </div>
+    {{ form.email.errors }}
+    <div class="field">
+        <label for="email">Email :</label>
+        <input type="email" id="email" name="email" maxlength="25" value="{{ user_form.instance.email }}" required><span class="validity"></span>
+    </div>
+    {{ form.phone_text.errors }}
+    <div class="field">
+        <label for="phone">Tél. : </label>
+        <input type="phone" id="phone" name="phone_text" maxlength="14" value="{{ profile_form.instance.phone_text }}" required placeholder="0601020304"><span class="validity"></span>
+    </div>
+    {{ form.locality_text.errors }}
+    <div class="field">
+        <label for="locality">Adresse : </label>
+        <input type="text" id="locality" name="locality_text" maxlength="50" value="{{ profile_form.instance.locality_text }}" required><span class="validity"></span>
+    </div>
+</fieldset>
+<p>Ces informations nous permettent de revenir vers vous en cas d’indisponibilité.</p>
+<input type="submit" value="Envoyer">
+
+{% if messages %}
+    {% for message in messages %}
+    <p class="message {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+</form>
+{% endblock %} 

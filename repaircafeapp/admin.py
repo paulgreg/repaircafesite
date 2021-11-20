@@ -6,8 +6,8 @@ from .models import Request
 
 class RequestAdmin(admin.ModelAdmin):
     date_hierarchy = 'reparation_date'
-    list_display = ('reparation_date', 'name_text', 'firstname_text', 'locality_text',
-                    'category_text', 'brand_text', 'token_url')
+    list_display = ('reparation_date', 'user', 'category_text',
+                    'brand_text', 'token_url')
 
     def token_url(self, obj):
         url = reverse('repaircafeapp:edit', kwargs={'token': obj.token_text})

@@ -35,7 +35,7 @@
     <h2 class="event_date">mercredi {{ event_by_date.grouper }}</h2>
     {% for e in event_by_date.list %}
     <div class="repair_demand">
-        <h3>{{ e.firstname_text }} pour un(e) 
+        <h3>{{ e.user.last_name }} pour un(e) 
             <strong>{% if e.category_text != 'autre' %}{{ e.category_text }}{% else %}{{ e.object_text }}{% endif %} {{ e.brand_text }}</strong>
             <small>({{ e.model_text }})</small>
         </h3>

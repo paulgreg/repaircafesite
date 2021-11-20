@@ -1,3 +1,4 @@
+/* wiki */
 .navbar {
     border-bottom: 1px solid black;
     padding: 0;
@@ -6,7 +7,7 @@
     flex: 1;
 }
 .navbar-nav li {
-    margin: .5em;
+    margin: .25em;
 }
 .navbar-nav li a {
     color: darkblue;
@@ -23,15 +24,21 @@
     content: "☰";
     color: darkblue;
 }
-@media screen and (min-width: 1090px) {
+@media screen and (min-width: 601px) {
     .navbar-menu.navbar-nav li:after {
         content: "-";
-        margin: 0 .5em 0 1em;
+        margin: 0 0 0 .5em;
         color: black;
     }
     .navbar-menu.navbar-nav li:last-child:after {
         display: none;
     }
+}
+#nav-login li {
+    margin: 0;
+}
+#nav-login li a {
+    padding-right: 0;
 }
 @media screen and (max-width: 600px) {
     .navbar-brand {
@@ -52,6 +59,66 @@
     font-size: small;
 }
 
-legend {
+/* django */
+.message {
+    margin: 1em .5em;
+    font-weight: bold;
+}
+.message.success {
+    color: darkgreen;
+}
+.message.error {
+    color: darkred;
+}
+
+/* repaircafe */
+form.repaircafe {
+    margin-bottom: 1em;
+}
+.repaircafe legend {
     margin: 10px auto 4px auto;
+}
+.repaircafe .field {
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto 10px auto;
+}
+.repaircafe label {
+    flex: 1;
+}
+.repaircafe input, 
+.repaircafe textarea, 
+.repaircafe select {
+    flex: 10;
+}
+.repaircafe textarea {
+    min-height: 100px;
+}
+@media screen and (min-device-width: 500px) {
+    .repaircafe .field {
+        flex-direction: row;
+    }
+    .repaircafe label {
+        min-width: 120px;
+        text-align: right;
+        display: inline-block;
+        margin-right: 10px;
+    }
+}
+.repaircafe span.validity {
+    margin: 1px 0 0 4px;
+}
+.repaircafe .errorlist { /* django validation */
+    color: red;
+    font-weight: bold;
+}
+.repaircafe input:invalid ~ span.validity:after,
+.repaircafe textarea:invalid ~ span.validity:after {
+    content: '✖';
+    color: red;
+}
+.repaircafe input:valid ~ span.validity:after,
+.repaircafe textarea:valid ~ span.validity:after {
+    content: '✓';
+    color: green;
 }

@@ -179,6 +179,8 @@ SERVER_EMAIL = ''
 # EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = True
 
+LOGIN_URL = '/_accounts/login/'
+
 # RepairCafe constants
 REPAIRCAFE_TITLE = "RepairCafé name"
 REPAIRCAFE_HOST = 'http://something.org'

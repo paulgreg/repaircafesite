@@ -28,9 +28,10 @@
     <div class="collapse navbar-collapse" id="navbarColor02">
     {% block wiki_header_navlinks %}
     <ul class="nav navbar-nav navbar-menu">
-        <li><a href="{% url 'wiki:root' %}">accueil</a></li>
-        <li><a href="{% url 'repaircafeapp:agenda' %}">agenda</a></li>
-        <li><a href="{% url 'repaircafeapp:request' %}">demande de réparation</a></li>
+        <li><a href="{% url 'wiki:root' %}">Accueil</a></li>
+        <li><a href="{% url 'repaircafeapp:agenda' %}">Agenda</a></li>
+        <li><a href="{% url 'repaircafeapp:request' %}">Réparation</a></li>
+        <li><a href="{% url 'repaircafeapp:profile' %}">Coordonnées</a></li>
     </ul>
     {% endblock %}
 
