@@ -8,10 +8,10 @@ import uuid
 
 class Request(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    category_text = models.CharField(max_length=16)
+    category_text = models.CharField(max_length=40)
     object_text = models.CharField(max_length=50, blank=True)
-    brand_text = models.CharField(max_length=10)
-    model_text = models.CharField(max_length=15)
+    brand_text = models.CharField(max_length=40)
+    model_text = models.CharField(max_length=40)
     year_text = models.CharField(max_length=4, blank=True)
     problem_text = models.CharField(max_length=2048)
     research_text = models.CharField(max_length=2048)
