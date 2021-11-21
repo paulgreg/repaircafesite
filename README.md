@@ -30,6 +30,10 @@ Copy `repaircafesite/settings.py.dist` to `repaircafesite/settings.py` and chang
     python manage.py createsuperuser
     python manage.py runserver
 
+### migration problem
+
+If you have issue migrating wiki, see [that issue on how to squash migrations](https://github.com/django-wiki/django-wiki/issues/1147).
+
 
 ## Development
 
