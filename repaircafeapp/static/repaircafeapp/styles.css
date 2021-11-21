@@ -7,7 +7,8 @@
     flex: 1;
 }
 .navbar-nav li {
-    margin: .25em;
+    margin: .15em;
+    padding: .15em;
 }
 .navbar-nav li a {
     color: darkblue;
@@ -24,7 +25,7 @@
     content: "☰";
     color: darkblue;
 }
-@media screen and (min-width: 601px) {
+@media screen and (min-width: 1090px) {
     .navbar-menu.navbar-nav li:after {
         content: "-";
         margin: 0 0 0 .5em;
@@ -40,7 +41,7 @@
 #nav-login li a {
     padding-right: 0;
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1090px) {
     .navbar-brand {
         width: 70%;
         height: 70%;
@@ -48,6 +49,16 @@
     .navbar-brand img {
         width: 90%;
         height: 90%;
+    }
+}
+
+#article-container .nav.navbar-nav .nav-item {
+    font-size: 14px;
+}
+
+@media screen and (max-width: 1090px) {
+    #article-container .nav.navbar-nav  {
+        display: none;
     }
 }
 
