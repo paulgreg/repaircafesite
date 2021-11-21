@@ -9,6 +9,7 @@ Expected features :
   - calendar to show planned reparations
   - admin interface to update or cancel requests
 
+Licensed under MIT.
 
 ## Configuration
 
