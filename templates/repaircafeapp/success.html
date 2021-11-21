@@ -3,5 +3,5 @@
 <h1>Demande de réparation enregistrée</h1>
 <p>Votre demande de réparation a été enregistrée sous le <strong>n°{{ model.token_text }}</strong>.</p>
 <p>En cas d'indisponibilité, contactez-nous par email <a href="mailto:{{ email }}">{{ email }}</a>.</p>
-<p><a href="/">Revenir à l'accueil du site</a></p>
+<p><a href="{% url 'repaircafeapp:index' %}">Revenir sur la page des réparations</a></p>
 {% endblock %} 

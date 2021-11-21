@@ -1,0 +1,28 @@
+{% extends "wiki/base_site.html" %}
+{% block main_content %}
+<style>
+.request {
+    margin: .25em .25em 1em 0;
+}
+.request_title {
+    font-size: 1.5em;
+}
+</style>
+<h1>Demande de réparation</h1>
+<h2>Nouvelle demande</h2>
+<p>Vous pouvez <a href="{% url 'repaircafeapp:request' %}">inscrire une nouvelle demande de réparation via ce formulaire</a>.</p>
+<h2>Vos demandes</h2>
+{% for model in models %}
+    <div class="request">
+        <h3 class="request_title">
+            {{ model.reparation_date }} -
+            {% if model.category_text != 'autre' %}{{ model.category_text }}{% else %}{{ model.object_text }}{% endif %} {{ model.brand_text }}</strong>
+            <small>({{ model.model_text }})</small>
+        </h3>
+        <a href="{% url 'repaircafeapp:edit' token=model.token_text %}">Modifier cette demande</a>
+    </div>
+{% empty %}
+<p>Aucune demande de réparation.</p>
+{% endfor %}
+
+{% endblock %} 

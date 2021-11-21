@@ -12,35 +12,16 @@ from ..dateutils import next_wednesdays, next_wednesday
 from functools import partial
 
 
-def getIsoDateAndDate(requestCount, date):
-    iso = date.date().isoformat()
-    count = requestCount.get(iso) or 0
-    return {'date': date.date(), 'iso': iso, 'places': settings.REPAIRCAFE_MAX_SEATS - count}
+def index(request):
+    if not request.user.is_authenticated:
+        return render(request, 'repaircafeapp/notlogged.html', {'url': '%s?next=%s' % (settings.LOGIN_URL, request.path)})
 
-
-def getDatesWithAvailabilities(token=''):
-    requestCount = getRequestCountByDates(token)
-    return list(map(partial(getIsoDateAndDate, requestCount), next_wednesdays()))
-
-
-def onSuccess(request, form):
-    form.save()
-    if (settings.REPAIRCAFE_SEND_EMAIL):
-        url = reverse('repaircafeapp:edit', kwargs={
-            'token': form.instance.token_text})
-        send_mail(
-            settings.REPAIRCAFE_EMAIL_CONFIRMATION_TITLE,
-            settings.REPAIRCAFE_EMAIL_CONFIRMATION_MESSAGE.format(
-                settings.REPAIRCAFE_HOST, url),
-            settings.REPAIRCAFE_EMAIL,
-            [settings.REPAIRCAFE_EMAIL, form.instance.email_text],
-            fail_silently=False,
-        )
-    return render(request, 'repaircafeapp/success.html', {'model': form.instance, 'email': settings.REPAIRCAFE_EMAIL})
+    models = findByUser(request.user)
+    return render(request, 'repaircafeapp/index.html', {'models': models})
 
 
 @transaction.atomic
-def index(request):
+def request(request):
     if not request.user.is_authenticated:
         return render(request, 'repaircafeapp/notlogged.html', {'url': '%s?next=%s' % (settings.LOGIN_URL, request.path)})
 
@@ -66,7 +47,7 @@ def index(request):
 
 
 @transaction.atomic
-def edit(request, token):
+def request_edit(request, token):
     if not request.user.is_authenticated:
         return render(request, 'repaircafeapp/notlogged.html', {'url': '%s?next=%s' % (settings.LOGIN_URL, request.path)})
 
@@ -91,3 +72,30 @@ def edit(request, token):
 def agenda(request):
     events = getNextRequests(next_wednesday())
     return render(request, 'repaircafeapp/agenda.html', {'events': events})
+
+
+def getIsoDateAndDate(requestCount, date):
+    iso = date.date().isoformat()
+    count = requestCount.get(iso) or 0
+    return {'date': date.date(), 'iso': iso, 'places': settings.REPAIRCAFE_MAX_SEATS - count}
+
+
+def getDatesWithAvailabilities(token=''):
+    requestCount = getRequestCountByDates(token)
+    return list(map(partial(getIsoDateAndDate, requestCount), next_wednesdays()))
+
+
+def onSuccess(request, form):
+    form.save()
+    if (settings.REPAIRCAFE_SEND_EMAIL):
+        url = reverse('repaircafeapp:edit', kwargs={
+            'token': form.instance.token_text})
+        send_mail(
+            settings.REPAIRCAFE_EMAIL_CONFIRMATION_TITLE,
+            settings.REPAIRCAFE_EMAIL_CONFIRMATION_MESSAGE.format(
+                settings.REPAIRCAFE_HOST, url),
+            settings.REPAIRCAFE_EMAIL,
+            [settings.REPAIRCAFE_EMAIL, form.instance.email_text],
+            fail_silently=False,
+        )
+    return render(request, 'repaircafeapp/success.html', {'model': form.instance, 'email': settings.REPAIRCAFE_EMAIL})

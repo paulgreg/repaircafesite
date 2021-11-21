@@ -62,6 +62,10 @@ def findByToken(token):
     return Request.objects.filter(token_text=token).first()
 
 
+def findByUser(user):
+    return Request.objects.filter(user=user)
+
+
 def findByIdAndToken(id, token):
     return Request.objects.filter(token_text=token, id=id).first()
 
