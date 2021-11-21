@@ -94,7 +94,7 @@ def onSuccess(request, form):
             settings.REPAIRCAFE_EMAIL_CONFIRMATION_MESSAGE.format(
                 settings.REPAIRCAFE_HOST, url),
             settings.REPAIRCAFE_EMAIL,
-            [settings.REPAIRCAFE_EMAIL, form.instance.email_text],
+            [settings.REPAIRCAFE_EMAIL, request.user.email],
             fail_silently=False,
         )
     return render(request, 'repaircafeapp/success.html', {'model': form.instance, 'email': settings.REPAIRCAFE_EMAIL})
