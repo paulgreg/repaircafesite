@@ -1,4 +1,3 @@
-from django.http import HttpResponse, Http404
 from django.template import loader
 from django.conf import settings
 from django.urls import reverse
@@ -8,8 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.shortcuts import render, redirect
-from .models import RequestForm, UserForm, ProfileForm, getRequestCountByDates, getNextRequests, findByToken, areRequestCountFull
-from .dateutils import next_wednesdays, next_wednesday
+from ..models import *
+from ..dateutils import next_wednesdays, next_wednesday
 from functools import partial
 
 
@@ -87,27 +86,6 @@ def edit(request, token):
 
     form = RequestForm(instance=model)
     return render(request, 'repaircafeapp/request.html', {'action': action, 'form': form, 'nextdates': nextdates})
-
-
-@transaction.atomic
-def profile(request):
-    if not request.user.is_authenticated:
-        return render(request, 'repaircafeapp/notlogged.html', {'url': '%s?next=%s' % (settings.LOGIN_URL, request.path)})
-
-    if request.method == 'POST':
-        user_form = UserForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST, instance=request.user.profile)
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, 'Votre profil est sauvegardé !')
-            return render(request, 'repaircafeapp/profile.html', {'user_form': user_form, 'profile_form': profile_form})
-        else:
-            return render(request, 'repaircafeapp/profile.html', {'user_form': user_form, 'profile_form': profile_form})
-
-    user_form = UserForm(instance=request.user)
-    profile_form = ProfileForm(instance=request.user.profile)
-    return render(request, 'repaircafeapp/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
 def agenda(request):
