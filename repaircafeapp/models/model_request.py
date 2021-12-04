@@ -8,6 +8,7 @@ import uuid
 
 class Request(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    active = models.BooleanField(default=True)
     category_text = models.CharField(max_length=40)
     object_text = models.CharField(max_length=50, blank=True)
     brand_text = models.CharField(max_length=40)
@@ -44,7 +45,7 @@ class RequestForm(ModelForm):
 
 
 def getRequestCountByDates(token=''):
-    requestsByDate = Request.objects.exclude(token_text=token).values('reparation_date').annotate(
+    requestsByDate = Request.objects.filter(active=True).exclude(token_text=token).values('reparation_date').annotate(
         count=Count('reparation_date')).order_by()
 
     return {x.get('reparation_date').isoformat(): x.get('count')
@@ -59,16 +60,16 @@ def areRequestCountFull(o):
 
 
 def findByToken(token):
-    return Request.objects.filter(token_text=token).first()
+    return Request.objects.filter(active=True, token_text=token).first()
 
 
 def findByUser(user):
-    return Request.objects.filter(user=user)
+    return Request.objects.filter(active=True, user=user)
 
 
 def findByIdAndToken(id, token):
-    return Request.objects.filter(token_text=token, id=id).first()
+    return Request.objects.filter(active=True, token_text=token, id=id).first()
 
 
 def getNextRequests(filterFromDate):
-    return Request.objects.filter(reparation_date__gte=filterFromDate.date().isoformat()).order_by('reparation_date')
+    return Request.objects.filter(active=True, reparation_date__gte=filterFromDate.date().isoformat()).order_by('reparation_date')
