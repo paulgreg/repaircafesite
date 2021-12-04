@@ -1,135 +1,156 @@
 /* wiki */
 .navbar {
-    border-bottom: 1px solid black;
-    padding: 0;
+  border-bottom: 1px solid black;
+  padding: 0;
 }
 .navbar-menu {
-    flex: 1;
+  flex: 1;
 }
 .navbar-nav li {
-    margin: .15em;
-    padding: .15em;
+  margin: 0.15em;
+  padding: 0.15em;
 }
 .navbar-nav li a {
-    color: darkblue;
+  color: darkblue;
 }
 .navbar-nav li a:hover {
-    color: black;
+  color: black;
 }
 .navbar-toggler {
-    border: 2px solid black;
-    line-height: unset;
-    margin-right: .25em;
+  border: 2px solid black;
+  line-height: unset;
+  margin-right: 0.25em;
 }
 .navbar-toggler-icon:before {
-    content: "☰";
-    color: darkblue;
+  content: "☰";
+  color: darkblue;
 }
+
 @media screen and (min-width: 1090px) {
-    .navbar-menu.navbar-nav li:after {
-        content: "-";
-        margin: 0 0 0 .5em;
-        color: black;
-    }
-    .navbar-menu.navbar-nav li:last-child:after {
-        display: none;
-    }
+  .navbar-menu.navbar-nav li:after {
+    content: "-";
+    margin: 0 0 0 0.5em;
+    color: black;
+  }
+  .navbar-menu.navbar-nav li:last-child:after {
+    display: none;
+  }
 }
+
+@media (min-width: 992px) {
+  .navbar-expand-lg .navbar-nav {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 1200px) {
+  .navbar-expand-lg .navbar-nav {
+    flex-direction: row;
+  }
+}
+
+.nav-link {
+  margin: 0;
+  padding: 0;
+}
+
 #nav-login li {
-    margin: 0;
+  margin: 0;
 }
 #nav-login li a {
-    padding-right: 0;
+  padding-right: 0;
 }
+
 @media screen and (max-width: 1090px) {
-    .navbar-brand {
-        width: 70%;
-        height: 70%;
-    }
-    .navbar-brand img {
-        width: 90%;
-        height: 90%;
-    }
+  .navbar-brand {
+    width: 70%;
+    height: 70%;
+  }
+  .navbar-brand img {
+    width: 90%;
+    height: 90%;
+  }
 }
 
 #article-container .nav.navbar-nav .nav-item {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 @media screen and (max-width: 1090px) {
-    #article-container .nav.navbar-nav  {
-        display: none;
-    }
+  #article-container .nav.navbar-nav {
+    display: none;
+  }
 }
 
 #main {
-    margin-top: 1em;
+  margin-top: 1em;
 }
 
 #wiki-footer {
-    font-size: small;
+  font-size: small;
 }
 
 /* django */
 .message {
-    margin: 1em .5em;
-    font-weight: bold;
+  margin: 1em 0.5em;
+  font-weight: bold;
 }
 .message.success {
-    color: darkgreen;
+  color: darkgreen;
 }
 .message.error {
-    color: darkred;
+  color: darkred;
 }
 
 /* repaircafe */
 form.repaircafe {
-    margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 .repaircafe legend {
-    margin: 10px auto 4px auto;
+  margin: 10px auto 4px auto;
 }
 .repaircafe .field {
-    display: flex;
-    flex-direction: column;
-    margin: 10px auto 10px auto;
+  display: flex;
+  flex-direction: column;
+  margin: 10px auto 10px auto;
 }
 .repaircafe label {
-    flex: 1;
+  flex: 1;
 }
-.repaircafe input, 
-.repaircafe textarea, 
+.repaircafe input,
+.repaircafe textarea,
 .repaircafe select {
-    flex: 10;
+  flex: 10;
 }
 .repaircafe textarea {
-    min-height: 100px;
+  min-height: 100px;
 }
 @media screen and (min-device-width: 500px) {
-    .repaircafe .field {
-        flex-direction: row;
-    }
-    .repaircafe label {
-        min-width: 120px;
-        text-align: right;
-        display: inline-block;
-        margin-right: 10px;
-    }
+  .repaircafe .field {
+    flex-direction: row;
+  }
+  .repaircafe label {
+    min-width: 120px;
+    text-align: right;
+    display: inline-block;
+    margin-right: 10px;
+  }
 }
 .repaircafe span.validity {
-    margin: 1px 0 0 4px;
+  margin: 1px 0 0 4px;
 }
-.repaircafe .errorlist { /* django validation */
-    color: red;
-    font-weight: bold;
+.repaircafe .errorlist {
+  /* django validation */
+  color: red;
+  font-weight: bold;
 }
 .repaircafe input:invalid ~ span.validity:after,
 .repaircafe textarea:invalid ~ span.validity:after {
-    content: '✖';
-    color: red;
+  content: "✖";
+  color: red;
 }
 .repaircafe input:valid ~ span.validity:after,
 .repaircafe textarea:valid ~ span.validity:after {
-    content: '✓';
-    color: green;
+  content: "✓";
+  color: green;
 }
